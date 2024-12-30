@@ -16,6 +16,6 @@ timestamp=$(date +"%Y-%m-%d %H:%M:%S")
 git commit -m "Automated commit: $timestamp"
 
 # Push changes to origin
-git push -u origin --force
+git push -u origin main --force
 
 echo "Git add, commit, and push successful."
