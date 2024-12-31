@@ -1,0 +1,1 @@
+- Is basically a file which tells you what structure of your API.
