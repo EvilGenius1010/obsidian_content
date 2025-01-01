@@ -1,0 +1,26 @@
+sequenceDiagram
+    participant API
+    participant Worker
+    participant FileSystem
+    participant Compiler
+    participant Runner
+    participant ResourceMonitor
+
+    API->>Worker: Submit C++ code
+    Worker->>FileSystem: Create temp directory (/tmp/judge/{uuid})
+    Worker->>FileSystem: Write code to main.cpp
+    
+    Worker->>ResourceMonitor: Initialize (CPU/Memory limits)
+    Worker->>Compiler: g++ main.cpp -o binary
+    
+    alt compilation success
+        Worker->>Runner: Execute binary with isolation
+        Runner->>ResourceMonitor: Monitor resource usage
+        ResourceMonitor-->>Runner: Resource stats
+        Runner-->>Worker: Execution results
+    else compilation error
+        Compiler-->>Worker: Error details
+    end
+    
+    Worker->>FileSystem: Cleanup temp files
+    Worker-->>API: Return results
